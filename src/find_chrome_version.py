@@ -8,7 +8,7 @@ cur_os = sys.platform.lower()
 if "win" in cur_os: ## win32 || "cygwin"
 	user_name = os.getlogin()
 
-	path = os.path.sep.join("C:|Users|{}|AppData|Local|Google|Chrome|User Data".split("|"))
+	path = os.path.sep.join("C:|Users|duduc|AppData|Local|Google|Chrome|User Data".split("|"))
 
 	version_file = "Local State"
 
