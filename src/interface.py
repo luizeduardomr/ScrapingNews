@@ -14,6 +14,7 @@ layout = [
         relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],
     [sg.Text('Nome do arquivo:'), sg.InputText(key='nomearquivo')],
     [sg.Text('Palavras chaves:'), sg.InputText(key='palavrachave')],
+    [sg.Text('Quantidade de resultados:'), sg.InputText(key='quantidade')],
     [sg.Submit('Pesquisar'), sg.Button('Cancelar')],
 ]
 
@@ -25,6 +26,7 @@ event, values = window.read()
 def Iniciar():
     nomearquivo = values['nomearquivo']
     palavrachave = values['palavrachave']
+    quantidade = values['quantidade']
     count = 0
     while count == 0:
         if event in (None, 'Cancelar'):
@@ -39,7 +41,5 @@ def Iniciar():
         elif values['uol'] == True:
             opcao = 'uol'
             count+=1
-    return nomearquivo, palavrachave, opcao
+    return nomearquivo, palavrachave, opcao, quantidade
     window.close()
-
-print(Iniciar())

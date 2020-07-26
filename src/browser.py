@@ -11,6 +11,8 @@ import os
 
 options = Options()
 options.headless = True
+chrome_options=Options()
+options.add_argument("--log-level=3")
 
 GET   = lambda x : GLOBAL_BR.find_element_by_xpath(x)
 ID	  = lambda x : GLOBAL_BR.find_element_by_id(x)
@@ -27,7 +29,7 @@ def init():
 		pass
 
 	global GLOBAL_BR
-	GLOBAL_BR = webdriver.Chrome(executable_path=os.path.join('src','chromedriver'+ext), options=options)
+	GLOBAL_BR = webdriver.Chrome(executable_path=os.path.join('src','chromedriver'), options=options)
 
 init()
 

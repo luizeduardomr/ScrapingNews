@@ -2,9 +2,12 @@ import os  # importa o sistema
 import json
 import csv  # importa o CSV para gerar arquivos
 import src.verify  # Baixa os arquivos para o selenium
-import re, traceback, json
+import re
+import traceback
+import json
+from src.interface import Iniciar
 
-
+"""
 # Termos de pesquisa
 query = 'corona virus'
 
@@ -19,10 +22,13 @@ arquivo = "teste"
 
 # Qtd max de resultados
 amount = 5  # 0 ou False para "o maximo possivel"
+"""
+nomearquivo, palavrachave, opcao, quantidade = Iniciar()
 
 
 # Começa as pesquisas
 results = []
+"""
 for site in sites:
 
     # Carrega os scripts de cada site
@@ -32,16 +38,23 @@ for site in sites:
         import src.estadao as site_atual
     else:
         raise ValueError('Site Invalido')
+"""
+
+if opcao == 'folha':
+	import src.folhasp as site_atual
+elif opcao == 'esadao':
+    import src.estadao as site_atual
+else:
+	raise ValueError('Site Invalido')
+
 
     # Realiza a pesquisa
-    for search_result in site_atual.search(query=query, limit=amount):
-        results.append(search_result)
+for search_result in site_atual.search(query=palavrachave, limit=int(quantidade)):
+	results.append(search_result)
 
-
-# teste de resultados
 
 # Faz a criação da pasta resultados
-dir_path = os.path.join('./resultados', arquivo)
+dir_path = os.path.join('./resultados', nomearquivo)
 if not os.path.exists('./resultados'):
     os.makedirs('./resultados')
 
@@ -61,7 +74,8 @@ with open('{}.csv'.format(os.path.join(dir_path, "resultados_da_pesquisa")), 'w'
             text.write(content)
 with open('{}.txt'.format(os.path.join(dir_path, "Parâmetros_de_pesquisa")), 'w', encoding='utf-8') as text:
     text.write(
-        f"Palavras Chaves: {query}\n")
+        f"Palavras Chaves: {palavrachave}\nNome do arquivo: {nomearquivo}\nSite: {opcao}\nNumero de pesquisas: {quantidade}\n")
+		
 
 
 # Salva os resultados
