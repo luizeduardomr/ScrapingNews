@@ -1,5 +1,9 @@
-from browser import *
+from src.browser import *
 import time
+
+with open(os.path.join('src', 'main.js')) as infile:
+	elimn_assin = infile.read()
+
 
 def search(query, limit=False):
 	if not limit:
@@ -8,6 +12,7 @@ def search(query, limit=False):
 	br = GLOBAL_BR  
 	### Realiza a busca
 	br.get('https://busca.estadao.com.br/?tipo_conteudo=Notícias&quando=&q={}'.format(query.replace(' ', '+')))
+	br.execute_script(elimn_assin)
 
 	### Tenta ja expandir a primeira vez os resultados
 	### O primeiro botao de "carregar mais" se comporta
@@ -20,8 +25,10 @@ def search(query, limit=False):
 	data = []
 
 	i = 0
-	while i < limit:
+	c = 0
+	while c < limit:
 		i+=1
+		c+=1
 
 		try:
 			## Tenta pegar um 'clicavel' novo
@@ -43,9 +50,17 @@ def search(query, limit=False):
 			continue
 
 		## Pega as informacoes do headline da noticia
-		date = TXT(f'/html/body/section[4]/div/section[1]/div/div/section[1]/div/div[2]/section[{i}]/span[2]')
 		link  = el.get_attribute('href')
 		title = el.get_attribute('title')
+
+		if 'emais.' in link:
+			c -= 1
+			continue
+
+		try:
+			date = TXT(f'/html/body/section[4]/div/section[1]/div/div/section[{i}]/div/div[2]')
+		except:
+			date = TXT(f'/html/body/section[4]/div/section[1]/div/div/section[{i}]/div/span[2]')
 
 		## Cria o objeto da noticia no json
 		data.append({
@@ -60,11 +75,32 @@ def search(query, limit=False):
 	## Para cada notica, abre o artigo e puxa o conteudo
 	for i in range(len(data)):
 		link = data[i]['link']
+		print (i, link)
+
+		if 'emais.' in link:
+			##  /html/body/div[1]/div[1]/div[2]/section/div/article/div[1]
+			data[i]['content'] = 'IRRELEVANTE'
+			continue
 
 		br.get(link)
-		time.sleep(.5)
+		time.sleep(1)
 
-		content = TXT('//*[@id="sw-wpn_41_253283"]/div/section/div/section[1]').replace('\n', ' ')
+
+		try:
+			content = WAIT_TXT('/html/body/section[3]/section/div[2]/div[2]/section/div/div/div/section/div/section[1]').replace('\n', ' ')
+		except:
+			try:
+				content = WAIT_TXT('/html/body/section[1]/section/div[2]/div[2]/section/div/div/div/section/div/section[1]').replace('\n', ' ')
+			except:
+				content = 'EXCLUSIVO'
+		                    
 		data[i]['content'] = content
 
 	return data
+
+
+if __name__ == '__main__':
+	try:
+		print(search('corona virus', 5))
+	finally:
+		END()

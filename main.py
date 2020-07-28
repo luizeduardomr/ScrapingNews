@@ -42,8 +42,10 @@ for site in sites:
 
 if opcao == 'folha':
 	import src.folhasp as site_atual
-elif opcao == 'esadao':
+elif opcao == 'estadao':
     import src.estadao as site_atual
+elif opcao =='uol':
+    import src.uol as site_atual
 else:
 	raise ValueError('Site Invalido')
 
@@ -63,7 +65,7 @@ if not os.path.exists(dir_path):
 
 with open('{}.csv'.format(os.path.join(dir_path, "resultados_da_pesquisa")), 'w',  encoding='utf-8') as csv_file:
     for res in results:
-        csv_file.write(res['title'] + '\t' + res['date'] + '\t' + res['link'])
+        csv_file.write((res['title'] + '\t' + res['date'] + '\t' + res['link']).replace('\n',' '))
         csv_file.write('\n')
         arquivotxt = re.sub('\W', '_', res['title'])
         with open('{}.txt'.format(os.path.join(dir_path, arquivotxt[:40])), 'w', encoding='utf-8') as text:

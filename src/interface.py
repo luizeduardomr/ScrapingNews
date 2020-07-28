@@ -18,7 +18,7 @@ layout = [
     [sg.Submit('Pesquisar'), sg.Button('Cancelar')],
 ]
 
-window = sg.Window('Project Creator', layout)  # make the window
+window = sg.Window('Mudanças Climáticas Search', layout)  # make the window
 
 event, values = window.read()
 

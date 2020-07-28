@@ -10,8 +10,7 @@ import os
 
 
 options = Options()
-options.headless = True
-chrome_options=Options()
+#options.headless = True
 options.add_argument("--log-level=3")
 
 GET   = lambda x : GLOBAL_BR.find_element_by_xpath(x)
