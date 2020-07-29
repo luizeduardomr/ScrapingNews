@@ -10,6 +10,7 @@ import os
 
 
 options = Options()
+# Opção para Debug (Abre o Chrome)
 #options.headless = True
 options.add_argument("--log-level=3")
 
@@ -61,7 +62,7 @@ class element_has_info:
 
 		return var
 
-waiter = WebDriverWait(GLOBAL_BR, 5)
+waiter = WebDriverWait(GLOBAL_BR, 10)
 _wait  = lambda *getters : waiter.until(element_has_info(getters))
 
 WAIT_CLICK = lambda x : _wait(lambda : CLICK(x))

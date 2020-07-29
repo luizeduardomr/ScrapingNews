@@ -56,9 +56,9 @@ for search_result in site_atual.search(query=palavrachave, limit=int(quantidade)
 
 
 # Faz a criação da pasta resultados
-dir_path = os.path.join('./resultados', nomearquivo)
-if not os.path.exists('./resultados'):
-    os.makedirs('./resultados')
+dir_path = os.path.join('./resultados2', nomearquivo)
+if not os.path.exists('./resultados2'):
+    os.makedirs('./resultados2')
 
 if not os.path.exists(dir_path):
     os.makedirs(dir_path)
@@ -73,13 +73,11 @@ with open('{}.csv'.format(os.path.join(dir_path, "resultados_da_pesquisa")), 'w'
                 content = res['content']
             except KeyError:
                 content = "Algo deu errado"
+            re.sub('\n+', '\n', content)
             text.write(content)
 with open('{}.txt'.format(os.path.join(dir_path, "Parâmetros_de_pesquisa")), 'w', encoding='utf-8') as text:
     text.write(
         f"Palavras Chaves: {palavrachave}\nNome do arquivo: {nomearquivo}\nSite: {opcao}\nNumero de pesquisas: {quantidade}\n")
-		
-
-
 # Salva os resultados
 # tmp
 """

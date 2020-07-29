@@ -75,8 +75,6 @@ def search(query, limit=False):
 	## Para cada notica, abre o artigo e puxa o conteudo
 	for i in range(len(data)):
 		link = data[i]['link']
-		print (i, link)
-
 		if 'emais.' in link:
 			##  /html/body/div[1]/div[1]/div[2]/section/div/article/div[1]
 			data[i]['content'] = 'IRRELEVANTE'
